@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
+import {updateLocalStorage} from "../functions/localStorage.jsx";
 
 
-export function ChordsMenu({showMenuChord, onBeatClick, dicoState, measureClickedState, infoScores}) {
+export function ChordsMenu({showMenuChord, closeMenu, dicoState, measureClickedState, infoScores}) {
 
     const [selectedNote, setSelectedNote] = useState("");
     const [selectedAlteration, setSelectedAlteration] = useState("");
@@ -11,7 +12,7 @@ export function ChordsMenu({showMenuChord, onBeatClick, dicoState, measureClicke
     const [measureClicked, setMeasureClicked] = measureClickedState;
     const [timeSignature, measurePerLine, lineCount] = infoScores;
     const handleClickClosed = () => {
-        onBeatClick();
+        closeMenu();
     };
 
     const selectNote = (note) => {
@@ -50,15 +51,15 @@ export function ChordsMenu({showMenuChord, onBeatClick, dicoState, measureClicke
             updatedDico.set('lineCount', lineCount);
             updatedDico.set(measureClicked, chordConbinated);
 
-            // Convertir la Map en un tableau de tableaux
-            const entriesArray = Array.from(updatedDico.entries());
-            // Convertir en JSON et enregistrer dans le localStorage
-            localStorage.setItem('scores', JSON.stringify(entriesArray));
-
+            // // Convertir la Map en un tableau de tableaux
+            // const entriesArray = Array.from(updatedDico.entries());
+            // // Convertir en JSON et enregistrer dans le localStorage
+            // localStorage.setItem('scores', JSON.stringify(entriesArray));
+            updateLocalStorage(updatedDico);
             return updatedDico;
         });
 
-        onBeatClick();
+        closeMenu();
     };
 
     const notes = ["A", "B", "C", "D", "E", "F", "G"];

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Line({ timeSignature, measurePerLine, onBeatClick, lineNumber, dicoState, measureClickedState}) {
+export function Line({ timeSignature, measurePerLine, onMeasureClick, lineNumber, dicoState, measureClickedState}) {
     const widthBeat = 100 / timeSignature;
 
     const [dico, setDico] = dicoState;
@@ -36,7 +36,7 @@ export function Line({ timeSignature, measurePerLine, onBeatClick, lineNumber, d
             return updatedDico;
         });
 
-        onBeatClick();
+        onMeasureClick();
 
     };
     return (
