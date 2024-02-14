@@ -7,6 +7,7 @@ import {ChordsMenu} from "./components/ChordsMenu.jsx";
 import {getDataLocalStorage, updateLocalStorage} from "./functions/localStorage.jsx";
 import {TimeSignature} from "./components/TimeSignature.jsx";
 import {MeasurePerLine} from "./components/MeasurePerLine.jsx";
+import {InputTitleScores} from "./components/InputTitleScores.jsx";
 
 function App() {
 
@@ -38,12 +39,26 @@ function App() {
 
     //changement 2/4, 3/4, 4/4
     const handleTimeChange = (event) => {
-        setTimeSignature(event.target.value);
+        const newTimeSignature = Number(event.target.value);
+        setTimeSignature(newTimeSignature);
+        console.log(newTimeSignature)
+        //on récupère le local storage :
+        let dataLocalStorage = getDataLocalStorage();
+        // on le transforme en tableau
+        if (dataLocalStorage) {
+            // Convertir les données JSON en tableau de tableaux
+            const storedDicoArray = JSON.parse(dataLocalStorage);
+            // // Créer une nouvelle Map à partir du tableau de tableaux
+            restoredDico = new Map(storedDicoArray);
+            restoredDico.set("timeSignature", newTimeSignature);
+            //a ce stade le map est mis à jours (normalement)
+            //reste à le remttre en tableau et à le réincorpérer dans le localstorage
+        }
     };
 
     //changement du nombre de mesures par lignes
     const handleMeasuresChange = (event) => {
-        setMeasurePerLine(event.target.value);
+        setMeasurePerLine(Number(event.target.value));
     };
 
 
@@ -95,16 +110,9 @@ function App() {
                     <TimeSignature handleTimeChange={handleTimeChange} timeSignature={timeSignature} />
                     <MeasurePerLine handleMeasuresChange={handleMeasuresChange} measurePerLine={measurePerLine} />
                 </div>
-                <input
-                    className="inputTitle"
-                    type="text"
-                    value={title} // Lier la valeur de l'entrée à l'état du titre
-                    onChange={handleTitleChange} // Gérer les modifications de l'entrée
-                />
-                {/*On utilise une boucle pour afficher le nombre de lignes souhaité */}
+                <InputTitleScores title={title} handleTitleChange={handleTitleChange}/>
                 <div className="lines">
                     {Array.from({length: lineCount}, (v, i) => (
-
                         <Line
                             key={`line-${i}`}
                             timeSignature={timeSignature}
@@ -114,7 +122,6 @@ function App() {
                             dicoState={[dico, setDico]}
                             measureClickedState={[measureClicked, setMeasureClicked]}
                         />
-
                     ))}
                 </div>
                 <div className="btnAddDelete">
