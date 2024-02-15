@@ -9,7 +9,9 @@ import {TimeSignature} from "./components/TimeSignature.jsx";
 import {MeasurePerLine} from "./components/MeasurePerLine.jsx";
 import {InputTitleScores} from "./components/InputTitleScores.jsx";
 import {Reset} from "./components/Reset.jsx";
-
+import { PDFExport } from '@progress/kendo-react-pdf';
+import { useRef } from 'react';
+import {BtnExportPDF} from "./components/BtnExportPDF.jsx";
 function App() {
 
 
@@ -142,6 +144,13 @@ function App() {
         updateLocalStorage(dico)
 
     }
+
+    const pdfExportComponent = useRef();
+    const exportPDF = () => {
+        pdfExportComponent.current.save();
+    };
+
+
     return (
         <>
             <h1>Éditeur de grille d'accords</h1>
@@ -150,6 +159,7 @@ function App() {
                     <TimeSignature handleTimeChange={handleTimeChange} timeSignature={timeSignature}/>
                     <MeasurePerLine handleMeasuresChange={handleMeasuresChange} measurePerLine={measurePerLine}/>
                 </div>
+                <PDFExport ref={pdfExportComponent} scale={0.8} paperSize="A3">
                 <div className="scoreContent">
                     <div className="title">
                         <InputTitleScores title={title} handleTitleChange={handleTitleChange}/>
@@ -168,12 +178,14 @@ function App() {
                         ))}
                     </div>
                 </div>
+                </PDFExport>
                 <div className="btnAddDelete">
                     <AddLineButton addLine={addLine}/>
                     <DeleteLineButton deleteLine={deleteLine}/>
                 </div>
                 <div>
                     <Reset reset={reset}/>
+                    <BtnExportPDF exportPDF={exportPDF} />
                 </div>
             </div>
             <ChordsMenu

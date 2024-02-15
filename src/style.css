@@ -46,6 +46,7 @@ h1 {
     font-size: 45px;
     margin-top: 0;
     color: var(--colorMainTitle);
+    text-transform: uppercase;
 }
 
 .container {
@@ -333,7 +334,7 @@ li:nth-child(7) span {
     align-items: center;
     justify-content: space-evenly;
     /*font-weight: 700;*/
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .chordAlteration > div,
@@ -362,7 +363,7 @@ li:nth-child(7) span {
     width: 50px;
     height: 50px;
     display: inline-block;
-    margin: 10px;
+    margin: 5px;
     position: relative;
 
 }
@@ -406,7 +407,7 @@ h4 {
     background-color: var(--colorSelected);
 }
 
-.btnInsert, .btnReset, .btnDelete {
+.btnInsert, .btnReset, .btnExport, .btnDelete {
     margin-top: 15px;
     border: none;
     border-radius: 10px;
@@ -418,7 +419,10 @@ h4 {
     color: #e3e3e3;
     transition: var(--hoverTransition);
 }
-
+.btnReset, .btnExport{
+    margin-left: 10px;
+    margin-right: 10px;
+}
 .btnInsert:hover {
     background-color: #179d54;
     color: #ffffff;
