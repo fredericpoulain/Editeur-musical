@@ -15,9 +15,7 @@ export function ChordsMenu({showMenuChord, closeMenu, dicoState, measureClickedS
     const [dico, setDico] = dicoState;
     const [measureClicked, setMeasureClicked] = measureClickedState;
     const [timeSignature, measurePerLine, lineCount] = infoScores;
-    const handleClickClosed = () => {
-        closeMenu();
-    };
+
 
     const selectNote = (note) => {
         setSelectedNote(prevState => prevState === note ? "" : note);
@@ -39,19 +37,13 @@ export function ChordsMenu({showMenuChord, closeMenu, dicoState, measureClickedS
         const chordConbinated = selectedNote + selectedAlteration + selectedQuality + selectedColor;
         const firstCaract = chordConbinated[0];
         if (notes.includes(firstCaract)){
-            // code non fonctionnel : voir composant Line pr plus d'infos
-            // const updatedDico = new Map(dico);
-            // updatedDico.set(measureClicked, chordConbinated);
-            // setDico(updatedDico);
-            // console.log(dico)
-            // // Convertir la Map en un tableau de tableaux
-            // const entriesArray = Array.from(dico.entries());
-            // // Convertir en JSON et enregistrer dans le localStorage
-            // localStorage.setItem('dicoChord', JSON.stringify(entriesArray));
+            /**
+             * On utilise setDico avec cette fonction de rappel, pour garantir que les mises à jour d'état dans l'application sont basées
+             * ...sur les valeurs les plus récentes
+             */
             setDico(prevDico => {
                 console.log(prevDico)
                 const updatedDico = new Map(prevDico);
-                // const [timeSignature, measurePerLine, lineCount] = infoScores;
                 updatedDico.set('timeSignature', timeSignature);
                 updatedDico.set('measurePerLine', measurePerLine);
                 updatedDico.set('lineCount', lineCount);
@@ -65,10 +57,8 @@ export function ChordsMenu({showMenuChord, closeMenu, dicoState, measureClickedS
 
     };
     const deleteChord = () => {
-        // console.log(measureClicked)
         setDico(prevDico => {
             const updatedDico = new Map(prevDico);
-            // const [timeSignature, measurePerLine, lineCount] = infoScores;
             updatedDico.delete(measureClicked);
             updateLocalStorage(updatedDico);
             return updatedDico;
@@ -80,7 +70,7 @@ export function ChordsMenu({showMenuChord, closeMenu, dicoState, measureClickedS
 
     return (
         <div className={`chordContainer ${showMenuChord ? 'chordContainerShow' : ''}`}>
-            <div className="closeChord" onClick={handleClickClosed}><i className="fa-solid fa-xmark"></i></div>
+            <div className="closeChord" onClick={closeMenu}><i className="fa-solid fa-xmark"></i></div>
 
             <div className="chordPart">
                 <ul className="circle">

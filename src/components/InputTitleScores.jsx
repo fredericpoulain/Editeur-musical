@@ -5,8 +5,8 @@ export function InputTitleScores({title, handleTitleChange}){
         <input
             className="inputTitle"
             type="text"
-            value={title} // Lier la valeur de l'entrée à l'état du titre
-            onChange={handleTitleChange} // Gérer les modifications de l'entrée
+            value={title}
+            onChange={handleTitleChange}
         />
     </>
 }

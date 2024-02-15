@@ -12,6 +12,7 @@ import {Reset} from "./components/Reset.jsx";
 import { PDFExport } from '@progress/kendo-react-pdf';
 import { useRef } from 'react';
 import {BtnExportPDF} from "./components/BtnExportPDF.jsx";
+
 function App() {
 
 
@@ -21,13 +22,13 @@ function App() {
     let defaultLineCount = 2;
     let defaultTitle = "Mon titre";
 
-    // Récupérer les données du localStorage
+    // Récupère les données du localStorage
     const storedDico = getDataLocalStorage();
-    // Vérifier si des données sont stockées
+    // Vérifie si des données sont stockées
     if (storedDico) {
-        // Convertir les données JSON en tableau de tableaux
+        // Convertie les données JSON en tableau de tableaux
         const storedDicoArray = JSON.parse(storedDico);
-        // // Créer une nouvelle Map à partir du tableau de tableaux
+        // // Créé une nouvelle Map à partir du tableau de tableaux
         restoredDico = new Map(storedDicoArray);
         defaultLineCount = restoredDico.get('lineCount') || defaultLineCount;
         defaultTimeSignature = restoredDico.get('timeSignature') || defaultTimeSignature ;
@@ -64,11 +65,8 @@ function App() {
     function updateStructureScores(keyName, newValue, oldValue, condition){
         //on récupère le local storage :
         let dataLocalStorage = getDataLocalStorage();
-        // on le transforme en tableau
         if (dataLocalStorage) {
-            // Convertir les données JSON en tableau de tableaux
             const storedDicoArray = JSON.parse(dataLocalStorage);
-            // // Créer une nouvelle Map à partir du tableau de tableaux
             restoredDico = new Map(storedDicoArray);
             restoredDico.set(keyName, newValue);
             //supprimer les accords correspondant au temps supprimé seulement si on réduit le nombre de mesures par ligne
@@ -86,7 +84,6 @@ function App() {
         }
     }
 
-
     // Fonction pour ajouter une ligne
     const addLine = () => {
         setLineCount(lineCount + 1);
@@ -102,7 +99,7 @@ function App() {
             // Met à jour le dico pour refléter le nouveau lineCount
             const updatedDico = new Map(dico);
             updatedDico.set("lineCount", lineCount - 1);
-            // Itérer sur les entrées de la Map pour supprimer toutes les mesures de la ligne supprimée.
+            // Itère sur les entrées de la Map pour supprimer toutes les mesures de la ligne supprimée.
             //Les mesures à supprimer sont identifiables par le premier chiffre de leurs identifiants, correspondant à la ligne
             for (let [key, value] of updatedDico.entries()) {
                 // si la clé commence par le préfixe à supprimer
@@ -122,7 +119,7 @@ function App() {
         setIsShowMenu(!isShowMenu); // Mettre à jour l'ouverture du menu lorsque le clic se produit
     };
 
-    // Mettre à jour le titre lors de la modification de l'entrée
+    // Met à jour le titre lors de la modification de l'entrée
     const handleTitleChange = (e) => {
         const titleName = e.target.value;
         setTitle(titleName);
@@ -149,7 +146,6 @@ function App() {
     const exportPDF = () => {
         pdfExportComponent.current.save();
     };
-
 
     return (
         <>
