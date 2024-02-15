@@ -3,6 +3,10 @@ import {updateLocalStorage} from "../functions/localStorage.jsx";
 
 
 export function ChordsMenu({showMenuChord, closeMenu, dicoState, measureClickedState, infoScores}) {
+    const notes = ["A", "B", "C", "D", "E", "F", "G"];
+    const alterations = ["♭", "♯"];
+    const qualities = ["m"];
+    const chordColor = ["4", "5", "6", "7", "M7", "9", "11"];
 
     const [selectedNote, setSelectedNote] = useState("");
     const [selectedAlteration, setSelectedAlteration] = useState("");
@@ -33,39 +37,46 @@ export function ChordsMenu({showMenuChord, closeMenu, dicoState, measureClickedS
 
     const combineChord = () => {
         const chordConbinated = selectedNote + selectedAlteration + selectedQuality + selectedColor;
+        const firstCaract = chordConbinated[0];
+        if (notes.includes(firstCaract)){
+            // code non fonctionnel : voir composant Line pr plus d'infos
+            // const updatedDico = new Map(dico);
+            // updatedDico.set(measureClicked, chordConbinated);
+            // setDico(updatedDico);
+            // console.log(dico)
+            // // Convertir la Map en un tableau de tableaux
+            // const entriesArray = Array.from(dico.entries());
+            // // Convertir en JSON et enregistrer dans le localStorage
+            // localStorage.setItem('dicoChord', JSON.stringify(entriesArray));
+            setDico(prevDico => {
+                console.log(prevDico)
+                const updatedDico = new Map(prevDico);
+                // const [timeSignature, measurePerLine, lineCount] = infoScores;
+                updatedDico.set('timeSignature', timeSignature);
+                updatedDico.set('measurePerLine', measurePerLine);
+                updatedDico.set('lineCount', lineCount);
+                updatedDico.set(measureClicked, chordConbinated);
+                updateLocalStorage(updatedDico);
+                console.log(updatedDico)
+                return updatedDico;
+            });
+            closeMenu();
+        }
 
-        // code non fonctionnel : voir composant Line pr plus d'infos
-        // const updatedDico = new Map(dico);
-        // updatedDico.set(measureClicked, chordConbinated);
-        // setDico(updatedDico);
-        // console.log(dico)
-        // // Convertir la Map en un tableau de tableaux
-        // const entriesArray = Array.from(dico.entries());
-        // // Convertir en JSON et enregistrer dans le localStorage
-        // localStorage.setItem('dicoChord', JSON.stringify(entriesArray));
+    };
+    const deleteChord = () => {
+        // console.log(measureClicked)
         setDico(prevDico => {
             const updatedDico = new Map(prevDico);
             // const [timeSignature, measurePerLine, lineCount] = infoScores;
-            updatedDico.set('timeSignature', timeSignature);
-            updatedDico.set('measurePerLine', measurePerLine);
-            updatedDico.set('lineCount', lineCount);
-            updatedDico.set(measureClicked, chordConbinated);
-
-            // // Convertir la Map en un tableau de tableaux
-            // const entriesArray = Array.from(updatedDico.entries());
-            // // Convertir en JSON et enregistrer dans le localStorage
-            // localStorage.setItem('scores', JSON.stringify(entriesArray));
+            updatedDico.delete(measureClicked);
             updateLocalStorage(updatedDico);
             return updatedDico;
         });
 
-        closeMenu();
     };
 
-    const notes = ["A", "B", "C", "D", "E", "F", "G"];
-    const alterations = ["♭", "♯"];
-    const qualities = ["m"];
-    const chordColor = ["4", "5", "6", "7", "M7", "9", "11"];
+
 
     return (
         <div className={`chordContainer ${showMenuChord ? 'chordContainerShow' : ''}`}>
@@ -105,11 +116,14 @@ export function ChordsMenu({showMenuChord, closeMenu, dicoState, measureClickedS
                 {chordColor.map((color, index) => (
                     <div key={index} className={`${selectedColor === color ? 'selected' : ''}`}
                          onClick={() => selectColor(color)}>
-                        {color}
+                        <span>{color}</span>
                     </div>
                 ))}
             </div>
             <button className="btnInsert" onClick={combineChord}>Valider</button>
+            <div>
+                <button className="btnDelete" onClick={deleteChord}>Effacer l'accord</button>
+            </div>
         </div>
     );
 
