@@ -188,9 +188,9 @@ h1 {
 }
 
 .chordContainerShow {
-    /*right: 0;*/
     transform: translateX(0vw);
     visibility: visible;
+    overflow: auto;
 }
 
 
