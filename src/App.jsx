@@ -18,10 +18,14 @@ function App() {
 
     let restoredDico;
     let defaultTimeSignature = 4;
-    let defaultMeasurePerLine = 2;
+    let defaultMeasurePerLine = calcDefaultMeasurePerLine();
     let defaultLineCount = 2;
     let defaultTitle = "Mon titre";
 
+    function calcDefaultMeasurePerLine(){
+        if (window.matchMedia("(max-width: 550px)").matches) return 1;
+        return 2;
+    }
     // Récupère les données du localStorage
     const storedDico = getDataLocalStorage();
     // Vérifie si des données sont stockées
@@ -130,7 +134,7 @@ function App() {
     };
     const reset = () => {
         setTimeSignature(4);
-        setMeasurePerLine(2)
+        setMeasurePerLine(calcDefaultMeasurePerLine)
         setLineCount(2)
         setTitle("Mon titre");
         setDico(prevDico => {
@@ -179,7 +183,7 @@ function App() {
                     <AddLineButton addLine={addLine}/>
                     <DeleteLineButton deleteLine={deleteLine}/>
                 </div>
-                <div>
+                <div className="btnResExp">
                     <Reset reset={reset}/>
                     <BtnExportPDF exportPDF={exportPDF} />
                 </div>
